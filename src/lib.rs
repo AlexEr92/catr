@@ -1,10 +1,15 @@
-use std::error::Error;
+use std::{
+    error::Error,
+    fs::File,
+    io::{self, BufRead, BufReader},
+};
 
-use clap::Command;
+use clap::{Arg, Command};
 
 type GenError = Box<dyn Error>;
 type GenResult<T> = Result<T, GenError>;
 
+#[allow(dead_code)] // TODO delete this
 #[derive(Debug)]
 pub struct Config {
     files: Vec<String>,
@@ -13,22 +18,50 @@ pub struct Config {
 }
 
 pub fn get_args() -> GenResult<Config> {
-    let _matches = Command::new("catr")
+    let matches = Command::new("catr")
         .version("0.1.0")
         .author("Alexander Eremenchuk")
         .about("Rust cat")
+        .arg(
+            Arg::new("files")
+                .value_name("FILES")
+                .help("Input file(s)")
+                .num_args(0..)
+                .default_value("-")
+                .hide_default_value(true),
+        )
         .get_matches();
 
     Ok(Config {
-        files: vec![String::from("-")],
+        files: matches
+            .get_many::<String>("files")
+            .unwrap()
+            .cloned()
+            .collect(),
         number_lines: false,
         number_nonblank_lines: false,
     })
 }
 
+fn open(filename: &str) -> GenResult<Box<dyn BufRead>> {
+    match filename {
+        "-" => Ok(Box::new(BufReader::new(io::stdin()))),
+        _ => Ok(Box::new(BufReader::new(File::open(filename)?))),
+    }
+}
+
 pub fn run(config: Config) -> GenResult<()> {
-    dbg!(config.files);
-    dbg!(config.number_lines);
-    dbg!(config.number_nonblank_lines);
+    for filename in config.files {
+        match open(&filename) {
+            Err(err) => eprintln!("Failed to open {}: {}", filename, err),
+            Ok(mut file) => {
+                let mut line = String::new();
+                while file.read_line(&mut line)? != 0 {
+                    print!("{}", line);
+                    line.clear();
+                }
+            }
+        }
+    }
     Ok(())
 }
