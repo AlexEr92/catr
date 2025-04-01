@@ -68,3 +68,8 @@ fn hello_world_with_newline_n() -> TestResult {
 fn counting() -> TestResult {
     run(&[COUNTING], "tests/expected/counting.txt.out")
 }
+
+#[test]
+fn counting_n() -> TestResult {
+    run(&["--number", COUNTING], "tests/expected/counting.txt.n.out")
+}
