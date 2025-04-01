@@ -49,9 +49,14 @@ fn hello_world_with_newline() -> TestResult {
 }
 
 #[test]
-fn counting() -> TestResult {
+fn hello_world_with_newline_n() -> TestResult {
     run(
-        &[COUNTING],
-        "tests/expected/counting.txt.out",
+        &["-n", HELLO_WORLD_WITH_NEWLINE],
+        "tests/expected/hello_world_with_newline.txt.n.out",
     )
+}
+
+#[test]
+fn counting() -> TestResult {
+    run(&[COUNTING], "tests/expected/counting.txt.out")
 }
