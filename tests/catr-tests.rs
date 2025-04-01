@@ -41,6 +41,14 @@ fn hello_world_without_newline() -> TestResult {
 }
 
 #[test]
+fn hello_world_without_newline_n() -> TestResult {
+    run(
+        &["-n", HELLO_WORLD_WITHOUT_NEWLINE],
+        "tests/expected/hello_world_without_newline.txt.n.out",
+    )
+}
+
+#[test]
 fn hello_world_with_newline() -> TestResult {
     run(
         &[HELLO_WORLD_WITH_NEWLINE],
