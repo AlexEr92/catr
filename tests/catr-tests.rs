@@ -7,7 +7,7 @@ type TestResult = Result<(), Box<dyn Error>>;
 
 const PRG: &str = "catr";
 
-const HELLO_WORLD: &str = "tests/inputs/hello_world.txt";
+const HELLO_WORLD_WITHOUT_NEWLINE: &str = "tests/inputs/hello_world_without_newline.txt";
 
 #[test]
 fn usage() -> TestResult {
@@ -31,6 +31,9 @@ fn run(args: &[&str], expected_file: &str) -> TestResult {
 }
 
 #[test]
-fn hello_world() -> TestResult {
-    run(&[HELLO_WORLD], "tests/expected/hello_world.txt.out")
+fn hello_world_without_newline() -> TestResult {
+    run(
+        &[HELLO_WORLD_WITHOUT_NEWLINE],
+        "tests/expected/hello_world_without_newline.txt.out",
+    )
 }

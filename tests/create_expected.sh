@@ -7,7 +7,7 @@ if [[ ! -d "${EXPECTED_DIR}" ]]; then
   mkdir -p "${EXPECTED_DIR}"
 fi
 
-HELLO_WORLD="${INPUT_DIR}/hello_world.txt"
+HELLO_WORLD_WITHOUT_NEWLINE="${INPUT_DIR}/hello_world_without_newline.txt"
 
-BASENAME=$(basename "${HELLO_WORLD}")
-cat "${HELLO_WORLD}" >"${EXPECTED_DIR}/${BASENAME}.out"
+BASENAME=$(basename "${HELLO_WORLD_WITHOUT_NEWLINE}")
+cat "${HELLO_WORLD_WITHOUT_NEWLINE}" >"${EXPECTED_DIR}/${BASENAME}.out"
