@@ -24,4 +24,5 @@ for file in "${test_files[@]}"; do
   file_basename=$(basename "${file}")
   cat "${file}" >"${EXPECTED_DIR}/${file_basename}.out"
   cat -n "${file}" >"${EXPECTED_DIR}/${file_basename}.n.out"
+  cat -b "${file}" >"${EXPECTED_DIR}/${file_basename}.b.out"
 done
