@@ -37,6 +37,14 @@ pub fn get_args() -> GenResult<Config> {
                 .help("Number lines")
                 .action(ArgAction::SetTrue),
         )
+        .arg(
+            Arg::new("number_nonblank")
+                .short('b')
+                .long("number-nonblank")
+                .action(ArgAction::SetTrue)
+                .help("Number non-blank lines")
+                .conflicts_with("number"),
+        )
         .get_matches();
 
     Ok(Config {
@@ -46,7 +54,7 @@ pub fn get_args() -> GenResult<Config> {
             .cloned()
             .collect(),
         number_lines: matches.get_flag("number"),
-        number_nonblank_lines: false,
+        number_nonblank_lines: matches.get_flag("number_nonblank"),
     })
 }
 
@@ -64,10 +72,18 @@ pub fn run(config: Config) -> GenResult<()> {
             Ok(mut file) => {
                 let mut line = String::new();
                 let mut line_num = 0;
+                let mut line_last_number = 0;
                 while file.read_line(&mut line)? != 0 {
                     if config.number_lines {
                         line_num += 1;
                         print!("{:>6}\t{}", line_num, line);
+                    } else if config.number_nonblank_lines {
+                        if line != "\n" {
+                            line_last_number += 1;
+                            print!("{:>6}\t{}", line_last_number, line);
+                        } else {
+                            println!();
+                        }
                     } else {
                         print!("{}", line);
                     }
