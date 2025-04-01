@@ -9,6 +9,7 @@ const PRG: &str = "catr";
 
 const HELLO_WORLD_WITHOUT_NEWLINE: &str = "tests/inputs/hello_world_without_newline.txt";
 const HELLO_WORLD_WITH_NEWLINE: &str = "tests/inputs/hello_world_with_newline.txt";
+const COUNTING: &str = "tests/inputs/counting.txt";
 
 #[test]
 fn usage() -> TestResult {
@@ -44,5 +45,13 @@ fn hello_world_with_newline() -> TestResult {
     run(
         &[HELLO_WORLD_WITH_NEWLINE],
         "tests/expected/hello_world_with_newline.txt.out",
+    )
+}
+
+#[test]
+fn counting() -> TestResult {
+    run(
+        &[COUNTING],
+        "tests/expected/counting.txt.out",
     )
 }
