@@ -84,3 +84,8 @@ fn invictus() -> TestResult {
 fn invictus_n() -> TestResult {
     run(&["-n", INVICTUS], "tests/expected/invictus.txt.n.out")
 }
+
+#[test]
+fn invictus_b() -> TestResult {
+    run(&["-b", INVICTUS], "tests/expected/invictus.txt.b.out")
+}
