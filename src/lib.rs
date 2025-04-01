@@ -4,7 +4,7 @@ use std::{
     io::{self, BufRead, BufReader},
 };
 
-use clap::{Arg, Command};
+use clap::{Arg, ArgAction, Command};
 
 type GenError = Box<dyn Error>;
 type GenResult<T> = Result<T, GenError>;
@@ -30,6 +30,13 @@ pub fn get_args() -> GenResult<Config> {
                 .default_value("-")
                 .hide_default_value(true),
         )
+        .arg(
+            Arg::new("number")
+                .short('n')
+                .long("number")
+                .help("Number lines")
+                .action(ArgAction::SetTrue),
+        )
         .get_matches();
 
     Ok(Config {
@@ -38,7 +45,7 @@ pub fn get_args() -> GenResult<Config> {
             .unwrap()
             .cloned()
             .collect(),
-        number_lines: false,
+        number_lines: matches.get_flag("number"),
         number_nonblank_lines: false,
     })
 }
@@ -56,8 +63,14 @@ pub fn run(config: Config) -> GenResult<()> {
             Err(err) => eprintln!("Failed to open {}: {}", filename, err),
             Ok(mut file) => {
                 let mut line = String::new();
+                let mut line_num = 0;
                 while file.read_line(&mut line)? != 0 {
-                    print!("{}", line);
+                    if config.number_lines {
+                        line_num += 1;
+                        print!("{:>6}\t{}", line_num, line);
+                    } else {
+                        print!("{}", line);
+                    }
                     line.clear();
                 }
             }
