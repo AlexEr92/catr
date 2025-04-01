@@ -11,6 +11,7 @@ const HELLO_WORLD_WITHOUT_NEWLINE: &str = "tests/inputs/hello_world_without_newl
 const HELLO_WORLD_WITH_NEWLINE: &str = "tests/inputs/hello_world_with_newline.txt";
 const COUNTING: &str = "tests/inputs/counting.txt";
 const INVICTUS: &str = "tests/inputs/invictus.txt";
+const EMPTY: &str = "tests/inputs/empty.txt";
 
 #[test]
 fn usage() -> TestResult {
@@ -112,4 +113,19 @@ fn invictus_n() -> TestResult {
 #[test]
 fn invictus_b() -> TestResult {
     run(&["-b", INVICTUS], "tests/expected/invictus.txt.b.out")
+}
+
+#[test]
+fn empty() -> TestResult {
+    run(&[EMPTY], "tests/expected/empty.txt.out")
+}
+
+#[test]
+fn empty_n() -> TestResult {
+    run(&["-n", EMPTY], "tests/expected/empty.txt.n.out")
+}
+
+#[test]
+fn empty_b() -> TestResult {
+    run(&["-b", EMPTY], "tests/expected/empty.txt.b.out")
 }
