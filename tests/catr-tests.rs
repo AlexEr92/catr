@@ -50,6 +50,14 @@ fn hello_world_without_newline_n() -> TestResult {
 }
 
 #[test]
+fn hello_world_without_newline_b() -> TestResult {
+    run(
+        &["-b", HELLO_WORLD_WITHOUT_NEWLINE],
+        "tests/expected/hello_world_without_newline.txt.b.out",
+    )
+}
+
+#[test]
 fn hello_world_with_newline() -> TestResult {
     run(
         &[HELLO_WORLD_WITH_NEWLINE],
@@ -66,6 +74,14 @@ fn hello_world_with_newline_n() -> TestResult {
 }
 
 #[test]
+fn hello_world_with_newline_b() -> TestResult {
+    run(
+        &["-b", HELLO_WORLD_WITH_NEWLINE],
+        "tests/expected/hello_world_with_newline.txt.b.out",
+    )
+}
+
+#[test]
 fn counting() -> TestResult {
     run(&[COUNTING], "tests/expected/counting.txt.out")
 }
@@ -73,6 +89,14 @@ fn counting() -> TestResult {
 #[test]
 fn counting_n() -> TestResult {
     run(&["--number", COUNTING], "tests/expected/counting.txt.n.out")
+}
+
+#[test]
+fn counting_b() -> TestResult {
+    run(
+        &["--number-nonblank", COUNTING],
+        "tests/expected/counting.txt.b.out",
+    )
 }
 
 #[test]
